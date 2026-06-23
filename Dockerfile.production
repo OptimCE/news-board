@@ -27,7 +27,6 @@ COPY core/ core/
 COPY api/ api/
 COPY shared/ shared/
 COPY locales/ locales/
-COPY scripts/ scripts/
 
 # Own everything by app user
 RUN chown -R app:app /app
