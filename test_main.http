@@ -1,0 +1,61 @@
+# Manual checks against the News Board service (direct, bypassing the gateway).
+# The gateway normally injects x-user-id / x-community-id / x-user-orgs; here we
+# set them by hand. The community + an active "news" subscription must exist in
+# the CRM DB, and the org id in x-user-orgs must match x-community-id.
+
+@host = http://127.0.0.1:8004
+@community = comm-1
+@orgs = [orgId:comm-1 orgPath:/test roles:[MANAGER]]
+
+### Readiness
+GET {{host}}/health/readiness
+Accept: application/json
+
+### Create a post (manager)
+POST {{host}}/posts
+Content-Type: application/json
+x-user-id: user-1
+x-community-id: {{community}}
+x-user-orgs: {{orgs}}
+
+{ "type": 0, "post": "# Bonjour\n\nUn **message** pour la communauté." }
+
+### Create a single-choice poll (manager)
+POST {{host}}/posts
+Content-Type: application/json
+x-user-id: user-1
+x-community-id: {{community}}
+x-user-orgs: {{orgs}}
+
+{
+  "type": 1,
+  "post": "Quelle date pour l'AG ?",
+  "options": [{ "option_value": "Lundi" }, { "option_value": "Mardi" }],
+  "expires_at": "2030-01-01T00:00:00Z",
+  "admin_visibility": 1,
+  "member_visibility": 1,
+  "member_display": 2
+}
+
+### List posts (member)
+GET {{host}}/posts
+Accept: application/json
+x-user-id: voter-1
+x-community-id: {{community}}
+x-user-orgs: [orgId:comm-1 orgPath:/test roles:[MEMBER]]
+
+### Cast a vote (member) — replace {id} and {optionId}
+POST {{host}}/posts/1/votes
+Content-Type: application/json
+x-user-id: voter-1
+x-community-id: {{community}}
+x-user-orgs: [orgId:comm-1 orgPath:/test roles:[MEMBER]]
+
+{ "option_ids": [1] }
+
+### Poll results (visibility-enforced)
+GET {{host}}/posts/1/results
+Accept: application/json
+x-user-id: voter-1
+x-community-id: {{community}}
+x-user-orgs: [orgId:comm-1 orgPath:/test roles:[MEMBER]]

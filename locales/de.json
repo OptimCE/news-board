@@ -1,0 +1,28 @@
+{
+  "ERRORS": {
+    "AUTH": {
+      "UNAUTHORIZED": "Authentifizierung erforderlich (Code: 1)",
+      "FORBIDDEN": "Zugriff verweigert (Code: 2)",
+      "RATE_LIMITED": "Zu viele Anfragen, bitte später erneut versuchen (Code: 3)",
+      "AUTHORIZATION_MISSING": "Autorisierungs-Header fehlt (Code: 4)"
+    },
+    "SUBSCRIPTION": {
+      "NOT_SUBSCRIBED": "Sie sind nicht für diesen Dienst angemeldet (Code: 1003)"
+    },
+    "NEWS": {
+      "GET_POSTS": "Beiträge konnten nicht abgerufen werden (Code: 2300)",
+      "GET_POST": "Der Beitrag konnte nicht abgerufen werden (Code: 2301)",
+      "POST_NOT_FOUND": "Beitrag nicht gefunden (Code: 2302)",
+      "CREATE_POST": "Der Beitrag konnte nicht erstellt werden (Code: 2303)",
+      "UPDATE_POST": "Der Beitrag konnte nicht aktualisiert werden (Code: 2304)",
+      "DELETE_POST": "Der Beitrag konnte nicht gelöscht werden (Code: 2305)",
+      "INVALID_POLL": "Ungültige Umfrage: mindestens zwei Optionen, Sichtbarkeitseinstellungen und ein zukünftiges Ablaufdatum sind erforderlich (Code: 2306)",
+      "NOT_A_POLL": "Dieser Beitrag ist keine Umfrage (Code: 2307)",
+      "POLL_EXPIRED": "Die Umfrage ist geschlossen; eine Stimmabgabe ist nicht mehr möglich (Code: 2308)",
+      "OPTIONS_FROZEN": "Optionen können nicht mehr geändert werden: es wurden bereits Stimmen abgegeben (Code: 2309)",
+      "INVALID_VOTE": "Ungültige Stimme: unbekannte Optionen oder eine falsche Anzahl an Auswahlen (Code: 2310)",
+      "CAST_VOTE": "Die Stimme konnte nicht gespeichert werden (Code: 2311)",
+      "GET_RESULTS": "Die Umfrageergebnisse konnten nicht abgerufen werden (Code: 2312)"
+    }
+  }
+}

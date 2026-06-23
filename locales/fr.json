@@ -1,0 +1,28 @@
+{
+  "ERRORS": {
+    "AUTH": {
+      "UNAUTHORIZED": "Authentification requise (code: 1)",
+      "FORBIDDEN": "Accès refusé (code: 2)",
+      "RATE_LIMITED": "Trop de requêtes, veuillez réessayer plus tard (code: 3)",
+      "AUTHORIZATION_MISSING": "En-tête d'autorisation manquant (code: 4)"
+    },
+    "SUBSCRIPTION": {
+      "NOT_SUBSCRIBED": "Vous n'êtes pas abonné à ce service (code: 1003)"
+    },
+    "NEWS": {
+      "GET_POSTS": "Échec de la récupération des publications (code: 2300)",
+      "GET_POST": "Échec de la récupération de la publication (code: 2301)",
+      "POST_NOT_FOUND": "Publication introuvable (code: 2302)",
+      "CREATE_POST": "Échec de la création de la publication (code: 2303)",
+      "UPDATE_POST": "Échec de la modification de la publication (code: 2304)",
+      "DELETE_POST": "Échec de la suppression de la publication (code: 2305)",
+      "INVALID_POLL": "Sondage invalide : au moins deux options, les paramètres de visibilité et une date d'expiration future sont requis (code: 2306)",
+      "NOT_A_POLL": "Cette publication n'est pas un sondage (code: 2307)",
+      "POLL_EXPIRED": "Le sondage est clôturé, le vote n'est plus possible (code: 2308)",
+      "OPTIONS_FROZEN": "Les options ne peuvent plus être modifiées : des votes ont déjà été enregistrés (code: 2309)",
+      "INVALID_VOTE": "Vote invalide : options inconnues ou nombre de choix incorrect (code: 2310)",
+      "CAST_VOTE": "Échec de l'enregistrement du vote (code: 2311)",
+      "GET_RESULTS": "Échec de la récupération des résultats du sondage (code: 2312)"
+    }
+  }
+}

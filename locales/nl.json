@@ -1,0 +1,28 @@
+{
+  "ERRORS": {
+    "AUTH": {
+      "UNAUTHORIZED": "Authenticatie vereist (code: 1)",
+      "FORBIDDEN": "Toegang geweigerd (code: 2)",
+      "RATE_LIMITED": "Te veel verzoeken, probeer het later opnieuw (code: 3)",
+      "AUTHORIZATION_MISSING": "Autorisatie-header ontbreekt (code: 4)"
+    },
+    "SUBSCRIPTION": {
+      "NOT_SUBSCRIBED": "U bent niet geabonneerd op deze dienst (code: 1003)"
+    },
+    "NEWS": {
+      "GET_POSTS": "Ophalen van berichten mislukt (code: 2300)",
+      "GET_POST": "Ophalen van het bericht mislukt (code: 2301)",
+      "POST_NOT_FOUND": "Bericht niet gevonden (code: 2302)",
+      "CREATE_POST": "Aanmaken van het bericht mislukt (code: 2303)",
+      "UPDATE_POST": "Bijwerken van het bericht mislukt (code: 2304)",
+      "DELETE_POST": "Verwijderen van het bericht mislukt (code: 2305)",
+      "INVALID_POLL": "Ongeldige peiling: minstens twee opties, zichtbaarheidsinstellingen en een toekomstige vervaldatum zijn vereist (code: 2306)",
+      "NOT_A_POLL": "Dit bericht is geen peiling (code: 2307)",
+      "POLL_EXPIRED": "De peiling is gesloten; stemmen is niet meer mogelijk (code: 2308)",
+      "OPTIONS_FROZEN": "Opties kunnen niet meer worden gewijzigd: er zijn al stemmen uitgebracht (code: 2309)",
+      "INVALID_VOTE": "Ongeldige stem: onbekende opties of een onjuist aantal keuzes (code: 2310)",
+      "CAST_VOTE": "Opslaan van de stem mislukt (code: 2311)",
+      "GET_RESULTS": "Ophalen van de peilingresultaten mislukt (code: 2312)"
+    }
+  }
+}

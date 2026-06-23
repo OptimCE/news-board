@@ -1,0 +1,28 @@
+{
+  "ERRORS": {
+    "AUTH": {
+      "UNAUTHORIZED": "Authentication required (code: 1)",
+      "FORBIDDEN": "Access denied (code: 2)",
+      "RATE_LIMITED": "Too many requests, please try again later (code: 3)",
+      "AUTHORIZATION_MISSING": "Missing authorization header (code: 4)"
+    },
+    "SUBSCRIPTION": {
+      "NOT_SUBSCRIBED": "You are not subscribed to this service (code: 1003)"
+    },
+    "NEWS": {
+      "GET_POSTS": "Failed to retrieve posts (code: 2300)",
+      "GET_POST": "Failed to retrieve the post (code: 2301)",
+      "POST_NOT_FOUND": "Post not found (code: 2302)",
+      "CREATE_POST": "Failed to create the post (code: 2303)",
+      "UPDATE_POST": "Failed to update the post (code: 2304)",
+      "DELETE_POST": "Failed to delete the post (code: 2305)",
+      "INVALID_POLL": "Invalid poll: at least two options, visibility settings and a future expiry are required (code: 2306)",
+      "NOT_A_POLL": "This post is not a poll (code: 2307)",
+      "POLL_EXPIRED": "The poll is closed; voting is no longer possible (code: 2308)",
+      "OPTIONS_FROZEN": "Options can no longer be changed: votes have already been cast (code: 2309)",
+      "INVALID_VOTE": "Invalid vote: unknown options or an incorrect number of choices (code: 2310)",
+      "CAST_VOTE": "Failed to record the vote (code: 2311)",
+      "GET_RESULTS": "Failed to retrieve the poll results (code: 2312)"
+    }
+  }
+}
