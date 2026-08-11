@@ -15,6 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.database.models import Community
 from core.notifications.repository import NotificationRepository
+from core.notifications.service import EmailRecipient, NotificationService
 from shared.models.crm_models import AppUserModel, NotificationModel
 from tests.factories.news_factory import (
     add_community_member,
@@ -146,3 +147,37 @@ async def test_notification_failure_does_not_abort_publish(
     assert listing.json()["data"][0]["id"] == post_id
     # ... and the rolled-back fan-out leaves no notification rows behind.
     assert await _notifications(db_session) == []
+
+
+async def test_email_channel_is_not_used_for_news(
+    client: AsyncClient, db_session: AsyncSession, monkeypatch: pytest.MonkeyPatch
+):
+    """News is in-app only, so the step-3 email seam must never be reached.
+
+    ``_enqueue_email`` is the documented no-op that Phase 1 step 3 (§1.5) fills
+    in with the ``outbound_message`` enqueue. Every producer carries this test so
+    a grep for ``_enqueue_email`` finds every place step 3 has to touch — and so
+    that widening a channel list by accident shows up here.
+    """
+    community, headers = await setup_active_news(db_session)
+    await _seed_members(
+        db_session,
+        community,
+        [
+            ("user-1", "mgr@example.test", "MANAGER"),
+            ("member-1", "m1@example.test", "MEMBER"),
+        ],
+    )
+
+    calls: list[list[EmailRecipient]] = []
+
+    async def _spy(self: NotificationService, **kwargs: object) -> None:
+        calls.append(kwargs["recipients"])  # type: ignore[arg-type]
+
+    monkeypatch.setattr(NotificationService, "_enqueue_email", _spy)
+
+    resp = await client.post("/posts", json={"type": 0, "post": "Quiet"}, headers=headers)
+    assert resp.status_code == 200, resp.text
+
+    assert len(await _notifications(db_session)) == 1
+    assert calls == []
