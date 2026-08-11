@@ -20,7 +20,13 @@ from core.api_response import Pagination
 from core.audit_log import AuditActions, AuditLogInput, AuditLogService
 from core.context_vars import current_user_id, current_user_role
 from core.errors.errors import ErrorException
-from core.notifications import NotificationService, NotificationTypes
+from core.notifications import (
+    Channel,
+    CommunityTarget,
+    NotificationCategory,
+    NotificationService,
+    NotificationTypes,
+)
 from core.security.user_context import ROLE_HIERARCHY, Role
 from shared.const import (
     AdminVisibility,
@@ -459,9 +465,13 @@ class NewsService:
                 if is_poll
                 else NotificationTypes.NEWS_POST_PUBLISHED
             ),
+            target=CommunityTarget(
+                community_id=internal_community_id,
+                exclude_auth_user_id=author_id,
+            ),
+            category=NotificationCategory.INFORMATIONAL,
+            channels=(Channel.INAPP,),
             data={"post_id": post.id},
-            community_id=internal_community_id,
-            exclude_author_auth_id=author_id,
         )
         try:
             await self.crm_session.commit()

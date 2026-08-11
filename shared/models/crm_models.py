@@ -1,7 +1,7 @@
 import datetime
 from typing import Any
 
-from sqlalchemy import TIMESTAMP, BigInteger, Integer, String, func
+from sqlalchemy import TIMESTAMP, BigInteger, Integer, String, Text, func
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -14,13 +14,19 @@ class AppUserModel(CrmBase):
     Only the columns the News service needs to resolve a logical user reference
     (Keycloak ``sub`` → internal id + email): the audit log denormalises the
     writer's identity onto each row, and poll results denormalise author/voter
-    emails for display under "full" visibility.
+    emails for display under "full" visibility. ``locale`` and the name pair are
+    read by ``core/notifications`` when it addresses a queued email.
     """
 
     __tablename__ = "app_user"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     auth_user_id: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
     email: Mapped[str] = mapped_column(String(256), nullable=False)
+    # Preferred language. NULL for every account created before the column
+    # existed, which the dispatcher's locale fallback is what handles.
+    locale: Mapped[str | None] = mapped_column(String(8), nullable=True)
+    first_name: Mapped[str | None] = mapped_column(Text, nullable=True)
+    last_name: Mapped[str | None] = mapped_column(Text, nullable=True)
 
 
 class CommunityUserModel(CrmBase):
