@@ -477,3 +477,8 @@ class NewsService:
             await self.crm_session.commit()
         except Exception:
             logger.exception("news: notification commit failed", extra={"post_id": post.id})
+        # Realtime hint, AFTER the commit that made the notification rows
+        # durable. Fire-and-forget; a swallowed commit failure above still
+        # flushes, which is harmless — the client refetches and finds no new row,
+        # so the count does not change and no toast fires.
+        await self.notification_service.flush_realtime()

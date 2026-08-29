@@ -15,6 +15,7 @@ from core.middleware.correlation_id import CorrelationIdMiddleware
 from core.middleware.locale_middleware import LocaleMiddleware
 from core.middleware.request_limits import RequestLimitsMiddleware
 from core.middleware.set_auth_context import GatewayScopeMiddleware
+from core.realtime import log_realtime_state
 from core.tracing import enrich_span, setup_tracer_provider
 
 configure_logging()
@@ -25,6 +26,9 @@ logger = logging.getLogger(__name__)
 async def lifespan(app: FastAPI):
     # News V1 has no queue/worker: just initialise tracing. (Email + its worker
     # land in V2.)
+    # Absence of this line means the image predates the realtime feature —
+    # see core/realtime/bus.py. Must come after configure_logging().
+    log_realtime_state("news-board api")
     setup_tracer_provider()
     yield
 
