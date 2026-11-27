@@ -58,6 +58,12 @@ class Settings(BaseSettings):
     REALTIME_ENABLED: bool = False
     REALTIME_REDIS_URL: str = ""
 
+    # ---- Data export (NATS) ----
+    # The only use of the broker here: answering the data export's `news-board` part. Empty
+    # = the export consumer stays off (logged), the API runs as before; an unreachable broker
+    # is retried in the background, never a boot failure.
+    NATS_URL: str = ""
+
     # ---- CORS ----
     ALLOW_ORIGIN: str = "*"
 

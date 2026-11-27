@@ -71,6 +71,18 @@ CREATE TABLE IF NOT EXISTS community_user (
 );
 
 
+-- Mirrors crm-backend's user_member_link (same shape as billing's mirror). Read by the
+-- data-export kit (core/export/requester.py): which members a requester represents.
+CREATE TABLE IF NOT EXISTS user_member_link (
+    id          INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_user     INTEGER NOT NULL REFERENCES app_user (id),
+    id_member   INTEGER NOT NULL,
+    created_at  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_user_member_link_member ON user_member_link (id_member);
+CREATE INDEX IF NOT EXISTS idx_user_member_link_user ON user_member_link (id_user);
+
+
 -- Mirrors crm-backend's notification table (the production DDL). The News
 -- service only INSERTs one row per recipient; reads are served by crm-backend.
 CREATE TABLE IF NOT EXISTS notification (
