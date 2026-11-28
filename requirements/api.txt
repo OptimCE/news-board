@@ -11,3 +11,10 @@ python-multipart==0.0.20
 python-jose[cryptography]==3.3.0
 
 auth0-python==5.1.0
+
+# The data export (core/export, started by the API): the broker it answers through, the
+# object store it writes its part to, and the contract's validation. Same pins as the
+# other annexes.
+nats-py==2.14.0
+aiobotocore==2.15.2
+jsonschema==4.23.0

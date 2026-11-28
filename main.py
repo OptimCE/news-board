@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from contextlib import asynccontextmanager
 
@@ -5,6 +6,7 @@ from fastapi import Depends, FastAPI
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from starlette.middleware.cors import CORSMiddleware
 
+from api.data_export import start_export_consumer, stop_export_consumer
 from api.health.routes import health_router
 from api.news.routes import news_routes
 from core.config import Environment, settings
@@ -24,13 +26,16 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # News V1 has no queue/worker: just initialise tracing. (Email + its worker
-    # land in V2.)
+    # News V1 has no queue/worker of its own. (Email + its worker land in V2.)
     # Absence of this line means the image predates the realtime feature —
     # see core/realtime/bus.py. Must come after configure_logging().
     log_realtime_state("news-board api")
     setup_tracer_provider()
+    # The data export's news-board part, its only use of NATS (connected in the background).
+    export_stop = asyncio.Event()
+    export_task = start_export_consumer(export_stop)
     yield
+    await stop_export_consumer(export_task, export_stop)
 
 
 protected_deps = [Depends(enrich_span)]
